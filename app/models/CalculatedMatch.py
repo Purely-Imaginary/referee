@@ -15,8 +15,8 @@ class CalculatedMatch:
         self.avg1elo = CalculatedMatch.calc_avg_elo(player11, player12)
         self.avg2elo = CalculatedMatch.calc_avg_elo(player21, player22)
 
-        diff_coefficient = 400
-        rating_change_coefficient = 1
+        diff_coefficient = 1600
+        rating_change_coefficient = 20
 
         difference = (self.avg1elo - self.avg2elo) / diff_coefficient
 
@@ -32,7 +32,7 @@ class CalculatedMatch:
         self.estimated_score_for_team2 = estimation_for_team2 * score_coefficient
         estimated_score_difference = self.estimated_score_for_team1 - self.estimated_score_for_team2
 
-        self.rating_change = rating_change_coefficient * (score_difference - estimated_score_difference)
+        self.rating_change = rating_change_coefficient / 20 * (score_difference - estimated_score_difference)
 
     @staticmethod
     def calc_avg_elo(p1, p2):

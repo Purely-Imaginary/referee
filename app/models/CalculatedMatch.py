@@ -16,7 +16,7 @@ class CalculatedMatch:
         self.avg2elo = CalculatedMatch.calc_avg_elo(player21, player22)
 
         diff_coefficient = 400
-        rating_change_coefficient = 1.5
+        rating_change_coefficient = 1
 
         difference = (self.avg1elo - self.avg2elo) / diff_coefficient
 

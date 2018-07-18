@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hi from Flask!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+</head>
+<body>
+<table class='table'>
+    {% for player in players %}
+    <tr>
+        <td>{{ player.name }}</td>
+        <td>{{'%0.2f'| format(player.present_rating|float)}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<table class="table table-condensed table-hover">
+    <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>P1 name & rating</th>
+        <th>P2 name & rating</th>
+        <th>Avg team rating</th>
+        <th>Score 1</th>
+        <th>-</th>
+        <th>Score 2</th>
+        <th>Avg team rating</th>
+        <th>P3 name & rating</th>
+        <th>P4 name & rating</th>
+        <th>Estimation</th>
+        <th>Rating change</th>
+    </tr>
+    {% for match in data %}
+    <tr>
+        <td>{{ match.date }}</td>
+        <td>{{ match.time }}</td>
+        <td>{{ match.player11.name }} (<span
+                class="smaller">{{ '%0.1f' | format(match.player11.present_rating|float) }}</span>)
+        </td>
+        <td>{{ match.player12.name }} (<span
+                class="smaller">{{ '%0.1f' | format(match.player12.present_rating|float) }}</span>)
+        </td>
+        <td>{{'%0.1f'| format(match.avg1elo|float)}}</td>
+        <td>{{ match.score1 }}</td>
+        <td> -</td>
+        <td>{{ match.score2 }}</td>
+        <td>{{'%0.1f'| format(match.avg2elo|float)}}</td>
+        <td>{{ match.player21.name }} (<span
+                class="smaller">{{ '%0.1f' | format(match.player21.present_rating|float) }}</span>)
+        </td>
+        <td>{{ match.player22.name }} (<span
+                class="smaller">{{ '%0.1f' | format(match.player22.present_rating|float) }}</span>)
+        </td>
+        <td>({{'%0.1f'| format(match.estimated_score_for_team1|float)}} :
+            {{'%0.1f'| format(match.estimated_score_for_team2|float)}})
+        </td>
+        <td>{{'%0.1f'| format(match.rating_change|float)}}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

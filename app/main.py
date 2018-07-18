@@ -1,5 +1,7 @@
 from flask import Flask, render_template, make_response, redirect, url_for, request, session
 from app.elo import main as elo
+import app.controllers.MatchesProcessor as MProcessor
+import app.controllers.PlayersProcessor as PProcessor
 import app.secrets as secrets
 
 app = Flask(__name__)
@@ -9,7 +11,6 @@ app.secret_key = secrets.getsecretkey()
 
 @app.route("/")
 def hello():
-    i=3
     session['data2'] = 'sessions data'
     app.logger.debug('A value for debugging')
     app.logger.warning('A warning occurred (%d apples)', 42)
@@ -32,6 +33,16 @@ def cookie():
     response = make_response(render_template('hi.html', name=username, session=session['data2']))
     response.set_cookie('testing cookie', 'cookie tested!')
     return response
+
+
+@app.route("/getRank")
+def generate_ranking():
+    players = PProcessor.get_all_players_from_spreadsheet()
+    data = MProcessor.get_matches_from_spreadsheet()
+    matches = MProcessor.generate_matches(data, players)
+    sorted_players = PProcessor.sort_players_by_rating(players)
+    matches.reverse()
+    return render_template('ranking.html', data=matches, players=sorted_players)
 
 
 if __name__ == "__main__":

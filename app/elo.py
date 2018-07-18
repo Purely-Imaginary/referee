@@ -50,12 +50,14 @@ def importmatch(string):
 
 
 def main():
-    skipFirst = True
+    players.clear()
+    matches.clear()
+
     url = secrets.getspreadsheeturl()
     response = urllib.request.urlopen(url)
     data = response.read()  # a `bytes` object
     text = data.decode('utf-8').split('\r\n')
-
+    skipFirst = True
     for row in text:
         if skipFirst:
             skipFirst = False

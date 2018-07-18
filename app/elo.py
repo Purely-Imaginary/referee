@@ -1,5 +1,7 @@
-from app.matchClass import match
+import app.secrets as secrets
 import urllib.request
+
+from app.matchClass import match
 
 players = {}
 matches = []
@@ -49,7 +51,7 @@ def importmatch(string):
 
 def main():
     skipFirst = True
-    url = 'https://spreadsheets.google.com/feeds/download/spreadsheets/Export?key=1ZcanOKj8IMd4AEynruOyp0D5HIY05wUqEjg4P2Z6ang&hl&exportFormat=csv'
+    url = secrets.getspreadsheeturl()
     response = urllib.request.urlopen(url)
     data = response.read()  # a `bytes` object
     text = data.decode('utf-8').split('\r\n')

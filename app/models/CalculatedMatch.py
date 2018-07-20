@@ -37,3 +37,82 @@ class CalculatedMatch:
     @staticmethod
     def calc_avg_elo(p1, p2):
         return (p1.present_rating + p2.present_rating) / 2
+
+    def insert_to_db(self, mongo_handler):
+        mongo_handler.db.matches.insert({
+            "team1": {
+                "player1": {
+                    "id": self.player11.id,
+                    "name": self.player11.name,
+                    "present_rating": self.player11.present_rating,
+                },
+                "player2": {
+                    "id": self.player12.id,
+                    "name": self.player12.name,
+                    "present_rating": self.player12.present_rating,
+                },
+                "score": self.score1,
+                "rating_change": self.rating_change,
+            },
+            "team2": {
+                "player1": {
+                    "id": self.player21.id,
+                    "name": self.player21.name,
+                    "present_rating": self.player21.present_rating,
+                },
+                "player2": {
+                    "id": self.player22.id,
+                    "name": self.player22.name,
+                    "present_rating": self.player22.present_rating,
+                },
+                "score": self.score2,
+                "rating_change": -self.rating_change,
+            },
+            "date": self.date,
+            "time": self.time,
+        })
+
+    def update_players(self, mongo_handler):
+        # wins and losses only
+
+        if self.score1 > self.score2:
+            mongo_handler.db.players.update_many(
+                {
+                    "$or": [
+                        {'name': self.player11.name},
+                        {'name': self.player12.name}
+                    ]
+                },
+                {"$inc": {'wins': 1}}
+            )
+
+            mongo_handler.db.players.update_many(
+                {
+                    "$or": [
+                        {'name': self.player21.name},
+                        {'name': self.player22.name}
+                    ]
+                },
+                {"$inc": {'losses': 1}}
+            )
+        elif self.score1 < self.score2:
+            mongo_handler.db.players.update_many(
+                {
+                    "$or": [
+                        {'name': self.player11.name},
+                        {'name': self.player12.name}
+                    ]
+                },
+                {"$inc": {'losses': 1}}
+            )
+
+            mongo_handler.db.players.update_many(
+                {
+                    "$or": [
+                        {'name': self.player21.name},
+                        {'name': self.player22.name}
+                    ]
+                },
+                {"$inc": {'wins': 1}}
+            )
+        i = 0

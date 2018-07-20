@@ -1,4 +1,5 @@
 from flask import Flask, render_template, make_response, redirect, url_for, request, session
+from flask_pymongo import PyMongo
 from app.elo import main as elo
 import app.controllers.MatchesProcessor as MProcessor
 import app.controllers.PlayersProcessor as PProcessor
@@ -7,6 +8,10 @@ import app.secrets as secrets
 app = Flask(__name__)
 
 app.secret_key = secrets.getsecretkey()
+
+# sudo service mongod start
+app.config["MONGO_URI"] = "mongodb://localhost:27017/referee"
+mongo = PyMongo(app)
 
 
 @app.route("/")
@@ -23,6 +28,7 @@ def hello():
 def hi(name=None):
     response = make_response(redirect(url_for('cookie')))
     response.set_cookie('username', name)
+    debug = mongo.db.matches.insert({'name': name})
     # return render_template('hi.html', name=name)
     return response
 
@@ -37,9 +43,9 @@ def cookie():
 
 @app.route("/getRank")
 def generate_ranking():
-    players = PProcessor.get_all_players_from_spreadsheet()
+    players = PProcessor.get_all_players_from_spreadsheet(mongo)
     data = MProcessor.get_matches_from_spreadsheet()
-    matches = MProcessor.generate_matches(data, players)
+    matches = MProcessor.generate_matches(data, players, mongo)
     sorted_players = PProcessor.sort_players_by_rating(players)
     matches.reverse()
     return render_template('ranking.html', data=matches, players=sorted_players)

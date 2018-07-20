@@ -16,8 +16,9 @@ def get_matches_from_spreadsheet():
     return text
 
 
-def generate_matches(matches_data, players_data):
+def generate_matches(matches_data, players_data, mongo_handler):
     matches = []
+    mongo_handler.db.matches.remove({})
     for row in matches_data:
         raw_data = row.split(',')
 
@@ -37,10 +38,12 @@ def generate_matches(matches_data, players_data):
             int(raw_data[5]),
             raw_data[8]
         )
-        player11.change_rating(calculated_match.rating_change)
-        player12.change_rating(calculated_match.rating_change)
-        player21.change_rating(-calculated_match.rating_change)
-        player22.change_rating(-calculated_match.rating_change)
+        player11.change_rating(calculated_match.rating_change, mongo_handler)
+        player12.change_rating(calculated_match.rating_change, mongo_handler)
+        player21.change_rating(-calculated_match.rating_change, mongo_handler)
+        player22.change_rating(-calculated_match.rating_change, mongo_handler)
 
         matches.append(calculated_match)
+        calculated_match.insert_to_db(mongo_handler)
+        calculated_match.update_players(mongo_handler)
     return matches

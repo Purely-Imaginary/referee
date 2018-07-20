@@ -6,7 +6,9 @@ import app.models.CalculatedMatch as CMatch
 import app.models.Player as Player
 
 
-def get_all_players_from_spreadsheet():
+def get_all_players_from_spreadsheet(mongo_handler):
+    starting_rating = 1000
+    mongo_handler.db.players.remove({})
     url = secrets.getspreadsheeturl()
     response = urllib.request.urlopen(url)
     data = response.read()  # a `bytes` object
@@ -24,7 +26,9 @@ def get_all_players_from_spreadsheet():
 
     players_object_list = []
     for player in players_list:
-        players_object_list.append(Player.Player(players_object_list.__len__(), player))
+        player_object = Player.Player(players_object_list.__len__(), player)
+        player_object.insert_to_db(mongo_handler)
+        players_object_list.append(player_object)
 
     return players_object_list
 

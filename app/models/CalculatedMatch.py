@@ -16,7 +16,7 @@ class CalculatedMatch:
         self.avg2elo = CalculatedMatch.calc_avg_elo(player21, player22)
 
         diff_coefficient = 1600
-        rating_change_coefficient = 20
+        rating_change_coefficient = 40
 
         difference = (self.avg1elo - self.avg2elo) / diff_coefficient
 
@@ -52,6 +52,7 @@ class CalculatedMatch:
                     "present_rating": self.player12.present_rating,
                 },
                 "score": self.score1,
+                "estimated_score": self.estimated_score_for_team1,
                 "rating_change": self.rating_change,
             },
             "team2": {
@@ -66,10 +67,12 @@ class CalculatedMatch:
                     "present_rating": self.player22.present_rating,
                 },
                 "score": self.score2,
+                "estimated_score": self.estimated_score_for_team2,
                 "rating_change": -self.rating_change,
             },
             "date": self.date,
             "time": self.time,
+            "league": self.league
         })
 
     def update_players(self, mongo_handler):
@@ -115,4 +118,3 @@ class CalculatedMatch:
                 },
                 {"$inc": {'wins': 1}}
             )
-        i = 0

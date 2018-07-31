@@ -45,9 +45,11 @@ def cookie():
 def generate_ranking():
     players = PProcessor.get_all_players_from_spreadsheet(mongo)
     data = MProcessor.get_matches_from_spreadsheet()
-    matches = MProcessor.generate_matches(data, players, mongo)
-    sorted_players = PProcessor.sort_players_by_rating(players)
-    matches.reverse()
+    MProcessor.generate_matches(data, players, mongo)
+    sorted_players = PProcessor.sort_players_by_rating(mongo, players)
+    # matches.reverse()
+    matches = MProcessor.get_matches_for_list(mongo)
+
     return render_template('ranking.html', data=matches, players=sorted_players)
 
 

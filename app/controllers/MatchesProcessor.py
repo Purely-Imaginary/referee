@@ -47,3 +47,12 @@ def generate_matches(matches_data, players_data, mongo_handler):
         calculated_match.insert_to_db(mongo_handler)
         calculated_match.update_players(mongo_handler)
     return matches
+
+
+def get_matches_for_list(mongo_handler):
+    data = mongo_handler.db.matches.find()
+    list = []
+    for match in data:
+        list.append(match)
+    list.reverse()
+    return list

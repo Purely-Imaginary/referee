@@ -8,10 +8,16 @@
 </head>
 <body>
 <table class='table'>
+    <th>Name</th>
+    <th>Elo</th>
+    <th>Wins</th>
+    <th>Losses</th>
     {% for player in players %}
     <tr>
         <td>{{ player.name }}</td>
         <td>{{'%0.2f'| format(player.present_rating|float)}}</td>
+        <td>{{ player.wins }}</td>
+        <td>{{ player.losses }}</td>
     </tr>
     {% endfor %}
 </table>
@@ -36,27 +42,29 @@
     <tr>
         <td>{{ match.date }}</td>
         <td>{{ match.time }}</td>
-        <td>{{ match.player11.name }} (<span
-                class="smaller">{{ '%0.1f' | format(match.player11.present_rating|float) }}</span>)
+        <td>{{ match.team1.player1.name }} (<span
+                class="smaller">{{ '%0.1f' | format(match.team1.player1.present_rating|float) }}</span>)
         </td>
-        <td>{{ match.player12.name }} (<span
-                class="smaller">{{ '%0.1f' | format(match.player12.present_rating|float) }}</span>)
+        <td>{{ match.team1.player2.name }} (<span
+                class="smaller">{{ '%0.1f' | format(match.team1.player2.present_rating|float) }}</span>)
         </td>
-        <td>{{'%0.1f'| format(match.avg1elo|float)}}</td>
-        <td>{{ match.score1 }}</td>
+        <td>{{'%0.1f'| format((match.team1.player2.present_rating + match.team1.player1.present_rating) / 2|float)}}
+        </td>
+        <td>{{ match.team1.score }}</td>
         <td>-</td>
-        <td>{{ match.score2 }}</td>
-        <td>{{'%0.1f'| format(match.avg2elo|float)}}</td>
-        <td>{{ match.player21.name }} (<span
-                class="smaller">{{ '%0.1f' | format(match.player21.present_rating|float) }}</span>)
+        <td>{{ match.team2.score }}</td>
+        <td>{{'%0.1f'| format((match.team2.player2.present_rating + match.team2.player1.present_rating) / 2|float)}}
         </td>
-        <td>{{ match.player22.name }} (<span
-                class="smaller">{{ '%0.1f' | format(match.player22.present_rating|float) }}</span>)
+        <td>{{ match.team2.player1.name }} (<span
+                class="smaller">{{ '%0.1f' | format(match.team2.player1.present_rating|float) }}</span>)
         </td>
-        <td>({{'%0.1f'| format(match.estimated_score_for_team1|float)}} :
-            {{'%0.1f'| format(match.estimated_score_for_team2|float)}})
+        <td>{{ match.team2.player2.name }} (<span
+                class="smaller">{{ '%0.1f' | format(match.team2.player2.present_rating|float) }}</span>)
         </td>
-        <td>{{'%0.1f'| format(match.rating_change|float)}}</td>
+        <td>({{'%0.1f'| format(match.team1.estimated_score|float)}} :
+            {{'%0.1f'| format(match.team2.estimated_score|float)}})
+        </td>
+        <td>{{'%0.1f'| format(match.team1.rating_change|float)}}</td>
     </tr>
     {% endfor %}
 </table>

@@ -16,11 +16,23 @@ def get_matches_from_spreadsheet():
     return text
 
 
-def generate_matches(matches_data, players_data, mongo_handler):
+def generate_matches(mongo_handler):
+    players_data = PProcessor.get_all_players_from_spreadsheet(mongo_handler)
+    matches_data = get_matches_from_spreadsheet()
     matches = []
     mongo_handler.db.matches.remove({})
     for row in matches_data:
         raw_data = row.split(',')
+
+        if raw_data[2] > raw_data[3]:
+            temp = raw_data[3]
+            raw_data[3] = raw_data[2]
+            raw_data[2] = temp
+
+        if raw_data[6] > raw_data[7]:
+            temp = raw_data[7]
+            raw_data[7] = raw_data[6]
+            raw_data[6] = temp
 
         player11 = PProcessor.get_player(raw_data[2], players_data)
         player12 = PProcessor.get_player(raw_data[3], players_data)

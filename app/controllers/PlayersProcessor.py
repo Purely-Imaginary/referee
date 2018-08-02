@@ -41,7 +41,7 @@ def get_player(name, players_object_list):
     return 0
 
 
-def sort_players_by_rating(mongo_handler, players):
+def sort_players_by_rating(mongo_handler):
     data = mongo_handler.db.players.find().sort("present_rating", 1)
     list = []
     for player in data:

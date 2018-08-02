@@ -7,7 +7,7 @@
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 </head>
 <body>
-<table class='table'>
+<table class='table' style="line-height:0em;font-size: 0.8em;">
     <th>Name</th>
     <th>Elo</th>
     <th>Wins</th>
@@ -22,21 +22,21 @@
     {% endfor %}
 </table>
 <br>
-<table class="table table-condensed table-hover">
-    <tr>
+<table class="table table-condensed table-hover" style="line-height:0em;font-size: 0.8em;text-align:center">
+    <tr style="line-height:1em;font-size: 0.8em">
         <th>Date</th>
         <th>Time</th>
-        <th>P1 name & rating</th>
-        <th>P2 name & rating</th>
-        <th>Avg team rating</th>
+        <th>P1 name <br>& rating</th>
+        <th>P2 name <br>& rating</th>
+        <th>Avg team <br>rating</th>
         <th>Score 1</th>
         <th>-</th>
         <th>Score 2</th>
-        <th>Avg team rating</th>
-        <th>P3 name & rating</th>
-        <th>P4 name & rating</th>
+        <th>Avg team <br>rating</th>
+        <th>P3 name <br>& rating</th>
+        <th>P4 name <br>& rating</th>
         <th>Estimation</th>
-        <th>Rating change</th>
+        <th>Rating <br>change</th>
     </tr>
     {% for match in data %}
     <tr>

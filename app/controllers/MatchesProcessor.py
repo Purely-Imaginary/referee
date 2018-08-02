@@ -4,7 +4,6 @@ import app.models.Player as Player
 import app.controllers.PlayersProcessor as PProcessor
 import urllib.request
 
-from app.matchClass import match
 
 
 def get_matches_from_spreadsheet():
@@ -68,3 +67,26 @@ def get_matches_for_list(mongo_handler):
         list.append(match)
     list.reverse()
     return list
+
+
+def get_matches_for_league(mongo_handler, leagueId):
+    data = mongo_handler.db.matches.find({'league': leagueId})
+    list = []
+    for match in data:
+        list.append(match)
+
+    return list
+
+
+def generate_table(matches_list):
+    teams = []
+    for match in matches_list:
+        name = match['team1']['player1']['name'] + " - " + match['team1']['player2']['name']
+        if name not in teams:
+            teams.append(name)
+
+        name = match['team2']['player1']['name'] + " - " + match['team2']['player2']['name']
+        if name not in teams:
+            teams.append(name)
+
+    return 0

@@ -33,12 +33,11 @@ def hi(name=None):
     return response
 
 
-@app.route("/setcookie")
-def cookie():
-    username = request.cookies.get('username')
-    response = make_response(render_template('hi.html', name=username, session=session['data2']))
-    response.set_cookie('testing cookie', 'cookie tested!')
-    return response
+@app.route("/league")
+def league():
+    leagueId = 'OB0'
+    table = MProcessor.generate_table(MProcessor.get_matches_for_league(mongo, leagueId))
+    return render_template('league.html')
 
 
 @app.route("/getRank")

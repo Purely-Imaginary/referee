@@ -7,8 +7,46 @@
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 </head>
 <body>
+<table class='table' style="font-size: 0.8em;">
+    <tr>
+        <th></th>
+        {% for team1 in teams %}
+        <th>{{ team1 }}</th>
+        {% endfor %}
+    </tr>
+    {% for key, value in teams.items() %}
+    <tr>
+        <td>{{ key }}</td>
+        {% for name, match in value.items() %}
+        <td>{{ match }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
 <table class='table' style="line-height:0em;font-size: 0.8em;">
-    LEAGUE
+    <tr>
+        <th>Name</th>
+        <th>Pts</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Played</th>
+        <th>GScored</th>
+        <th>GLost</th>
+        <th>GDiff</th>
+    </tr>
+    {% for player in table %}
+    <tr>
+        <td>{{player.0}}</td>
+        <td>{{ player.1.points }}</td>
+        <td>{{ player.1.wins }}</td>
+        <td>{{ player.1.losses }}</td>
+        <td>{{ player.1.losses + player.1.wins }}</td>
+        <td>{{ player.1.goals_scored }}</td>
+        <td>{{ player.1.goals_lost }}</td>
+        <td>{{ player.1.goals_scored - player.1.goals_lost }}</td>
+    </tr>
+    {% endfor %}
 </table>
 </body>
 </html>

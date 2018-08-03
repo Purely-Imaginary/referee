@@ -5,7 +5,6 @@ import app.controllers.PlayersProcessor as PProcessor
 import urllib.request
 
 
-
 def get_matches_from_spreadsheet():
     url = secrets.getspreadsheeturl()
     response = urllib.request.urlopen(url)
@@ -78,15 +77,82 @@ def get_matches_for_league(mongo_handler, leagueId):
     return list
 
 
-def generate_table(matches_list):
-    teams = []
+def generate_table(mongo_handler):
+    league_id = 'OB0'
+    matches_list = get_matches_for_league(mongo_handler, league_id)
+    teams = {}
     for match in matches_list:
-        name = match['team1']['player1']['name'] + " - " + match['team1']['player2']['name']
-        if name not in teams:
-            teams.append(name)
+        name1 = match['team1']['player1']['name'] + " - " + match['team1']['player2']['name']
+        name2 = match['team2']['player1']['name'] + " - " + match['team2']['player2']['name']
+        if name1 not in teams:
+            teams[name1] = {}
 
-        name = match['team2']['player1']['name'] + " - " + match['team2']['player2']['name']
-        if name not in teams:
-            teams.append(name)
+        if name2 not in teams:
+            teams[name2] = {}
 
-    return 0
+        if name2 not in teams[name1]:
+            teams[name1][name2] = {
+                'team1goals': match['team1']['score'],
+                'team2goals': match['team2']['score'],
+            }
+        else:
+            teams[name1][name2]['team1goals'] += match['team1']['score']
+            teams[name1][name2]['team2goals'] += match['team2']['score']
+
+        if name1 not in teams[name2]:
+            teams[name2][name1] = {
+                'team1goals': match['team2']['score'],
+                'team2goals': match['team1']['score'],
+            }
+        else:
+            teams[name2][name1]['team1goals'] += match['team2']['score']
+            teams[name2][name1]['team2goals'] += match['team1']['score']
+
+    scoreboard = {}
+
+    for team1 in teams:
+        wins = 0
+        losses = 0
+        points = 0
+        goals_scored = 0
+        goals_lost = 0
+
+        for team2 in teams[team1]:
+            goals_scored += teams[team1][team2]['team1goals']
+            goals_lost += teams[team1][team2]['team2goals']
+            if teams[team1][team2]['team1goals'] > teams[team1][team2]['team2goals']:
+                wins += 1
+                points += 3
+            else:
+                losses += 1
+
+        scoreboard[team1] = {
+            'wins': wins,
+            'losses': losses,
+            'points': points,
+            'goals_lost': goals_lost,
+            'goals_scored': goals_scored,
+        }
+    sorted_scoreboard = sorted(scoreboard.items(),
+                               key=lambda x: (x[1]['points'], x[1]['goals_scored'] - x[1]['goals_lost']), reverse=True)
+
+    score_table = {}
+
+    for name1 in teams:
+        for name2 in teams:
+            if name1 not in score_table:
+                score_table[name1] = {}
+                score_table[name1][name2] = {}
+
+            if name2 not in score_table[name1]:
+                score_table[name1][name2] = {}
+
+            if name2 in teams[name1]:
+                score_table[name1][name2] = str(teams[name1][name2]['team1goals']) + ":" + str(
+                    teams[name1][name2]['team2goals'])
+            elif name2 == name1:
+                score_table[name1][name2] = "X"
+            else:
+                score_table[name1][name2] = "---"
+
+    return {'scoreboard': sorted_scoreboard, 'detailed': score_table}

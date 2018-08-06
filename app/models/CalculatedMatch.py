@@ -118,3 +118,24 @@ class CalculatedMatch:
                 },
                 {"$inc": {'wins': 1}}
             )
+
+        # goals scored and lost
+
+        mongo_handler.db.players.update_many(
+            {
+                "$or": [
+                    {'name': self.player11.name},
+                    {'name': self.player12.name}
+                ]
+            },
+            {"$inc": {'goals_scored': self.score1, 'goals_lost': self.score2}}
+        )
+        mongo_handler.db.players.update_many(
+            {
+                "$or": [
+                    {'name': self.player21.name},
+                    {'name': self.player22.name}
+                ]
+            },
+            {"$inc": {'goals_scored': self.score2, 'goals_lost': self.score1}}
+        )

@@ -34,9 +34,10 @@ def hi(name=None):
 
 
 @app.route("/league")
-def league():
+@app.route("/league/<league_id>")
+def league(league_id=''):
     MProcessor.generate_matches(mongo)
-    table = MProcessor.generate_table(mongo)
+    table = MProcessor.generate_table(mongo, league_id)
     return render_template('league.html', table=table['scoreboard'], teams=table['detailed'])
 
 

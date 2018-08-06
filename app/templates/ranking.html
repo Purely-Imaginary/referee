@@ -12,12 +12,20 @@
     <th>Elo</th>
     <th>Wins</th>
     <th>Losses</th>
+    <th>Played</th>
+    <th>Goals Scored</th>
+    <th>Goals Lost</th>
+    <th>Goals Diff</th>
     {% for player in players %}
     <tr>
         <td>{{ player.name }}</td>
         <td>{{'%0.2f'| format(player.present_rating|float)}}</td>
         <td>{{ player.wins }}</td>
         <td>{{ player.losses }}</td>
+        <td>{{ player.losses + player.wins }}</td>
+        <td>{{ player.goals_scored }}</td>
+        <td>{{ player.goals_lost }}</td>
+        <td>{{ player.goals_scored - player.goals_lost }}</td>
     </tr>
     {% endfor %}
 </table>

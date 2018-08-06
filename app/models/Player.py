@@ -26,4 +26,6 @@ class Player:
             "present_rating": self.present_rating,
             "wins": 0,
             "losses": 0,
+            "goals_scored": 0,
+            "goals_lost": 0
         })

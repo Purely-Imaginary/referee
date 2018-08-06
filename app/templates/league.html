@@ -7,11 +7,11 @@
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 </head>
 <body>
-<table class='table' style="font-size: 0.8em;">
+<table class='table' style="font-size: 0.8em;white-space: pre-line;">
     <tr>
         <th></th>
         {% for team1 in teams %}
-        <th>{{ team1 }}</th>
+        <th>{{ team1 | replace("-","\n")}}</th>
         {% endfor %}
     </tr>
     {% for key, value in teams.items() %}

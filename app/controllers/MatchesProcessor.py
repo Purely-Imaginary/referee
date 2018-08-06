@@ -77,8 +77,7 @@ def get_matches_for_league(mongo_handler, leagueId):
     return list
 
 
-def generate_table(mongo_handler):
-    league_id = 'OB0'
+def generate_table(mongo_handler, league_id=''):
     matches_list = get_matches_for_league(mongo_handler, league_id)
     teams = {}
     for match in matches_list:

@@ -68,12 +68,14 @@ def get_matches_for_list(mongo_handler):
     return list
 
 
-def get_matches_for_league(mongo_handler, leagueId):
+def get_matches_for_league(mongo_handler, leagueId, reverse=False):
     data = mongo_handler.db.matches.find({'league': leagueId})
     list = []
     for match in data:
         list.append(match)
 
+    if reverse:
+        list.reverse()
     return list
 
 
@@ -155,3 +157,7 @@ def generate_table(mongo_handler, league_id=''):
                 score_table[name1][name2] = "---"
 
     return {'scoreboard': sorted_scoreboard, 'detailed': score_table}
+
+
+def get_league_matches(mongo_handler, league_id):
+    return None

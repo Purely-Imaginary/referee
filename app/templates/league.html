@@ -9,7 +9,7 @@
 <body>
 <table class='table' style="font-size: 0.8em;white-space: pre-line;">
     <tr>
-        <th></th>
+        <th>.</th>
         {% for team1 in teams %}
         <th>{{ team1 | replace("-","\n")}}</th>
         {% endfor %}
@@ -23,7 +23,7 @@
     </tr>
     {% endfor %}
 </table>
-
+<br><br>
 <table class='table' style="line-height:0em;font-size: 0.8em;">
     <tr>
         <th>Name</th>
@@ -45,6 +45,21 @@
         <td>{{ player.1.goals_scored }}</td>
         <td>{{ player.1.goals_lost }}</td>
         <td>{{ player.1.goals_scored - player.1.goals_lost }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<br><br>
+<table class='table' style="line-height:0em;font-size: 0.8em;">
+    {% for match in last_matches %}
+    <tr>
+        <td>{{ match.date }}</td>
+        <td>{{ match.time }}</td>
+        <td>{{ match.team1.player1.name }}</td>
+        <td>{{ match.team1.player2.name }}</td>
+        <td>{{ match.team1.score }}</td>
+        <td>{{ match.team2.score }}</td>
+        <td>{{ match.team2.player1.name }}</td>
+        <td>{{ match.team2.player2.name }}</td>
     </tr>
     {% endfor %}
 </table>

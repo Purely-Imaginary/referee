@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hi from Flask!</title>
+    <title>League {{ league_id }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 </head>
@@ -18,7 +18,7 @@
     <tr>
         <td>{{ key }}</td>
         {% for name, match in value.items() %}
-        <td>{{ match }}</td>
+        <td>{{ match | replace(":"," : ") }}</td>
         {% endfor %}
     </tr>
     {% endfor %}
@@ -44,7 +44,9 @@
         <td>{{ player.1.losses + player.1.wins }}</td>
         <td>{{ player.1.goals_scored }}</td>
         <td>{{ player.1.goals_lost }}</td>
-        <td>{{ player.1.goals_scored - player.1.goals_lost }}</td>
+        <td>{% if player.1.goals_scored - player.1.goals_lost > 0 %}+{% endif %}{{ player.1.goals_scored -
+            player.1.goals_lost }}
+        </td>
     </tr>
     {% endfor %}
 </table>
@@ -63,5 +65,13 @@
     </tr>
     {% endfor %}
 </table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $("table").each(function () {
+        $(this).html($(this).html().replace(/Jacek Cieślak - Kamil Piorun/g,"Sicarios z Secondigliano"));
+        $(this).html($(this).html().replace(/Jacek Cieślak \n Kamil Piorun/g,"Sicarios z\nSecondigliano"));
+    });
+
+</script>
 </body>
 </html>

@@ -39,7 +39,8 @@ def league(league_id=''):
     MProcessor.generate_matches(mongo)
     table = MProcessor.generate_table(mongo, league_id)
     matches = MProcessor.get_matches_for_league(mongo, league_id, True)
-    return render_template('league.html', table=table['scoreboard'], teams=table['detailed'], last_matches=matches)
+    return render_template('league.html', table=table['scoreboard'], teams=table['detailed'], last_matches=matches,
+                           league_id=league_id)
 
 
 @app.route("/getRank")

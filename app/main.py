@@ -43,6 +43,11 @@ def league(league_id=''):
                            league_id=league_id)
 
 
+@app.route("/recalc")
+def recalc():
+    MProcessor.generate_matches(mongo)
+    generate_ranking()
+
 @app.route("/getRank")
 def generate_ranking():
     MProcessor.generate_matches(mongo)

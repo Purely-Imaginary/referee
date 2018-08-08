@@ -5,9 +5,23 @@
     <title>Elo Rankings</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <style>
+        td {
+            border-color: #292824 !important
+        }
+        th {
+            border-color: #35332f !important
+        }
+        body {
+            background-color: black;
+            color: white
+        }
+
+    </style>
 </head>
 <body>
 <table class='table table-hover' style="line-height:0em;font-size: 0.8em;">
+    <th>Place</th>
     <th>Name</th>
     <th>Elo</th>
     <th>Wins</th>
@@ -16,13 +30,14 @@
     <th>Goals Scored</th>
     <th>Goals Lost</th>
     <th>Goals Diff</th>
+    <th>Avg Goals</th>
     {% for player in players %}
     {% if player.losses + player.wins > 10 %}
     <tr>
         {% else %}
     <tr style="color:grey">
         {% endif %}
-
+        <td>{{ loop.index }}</td>
         <td>{{ player.name }}</td>
         <td>{{'%0.2f'| format(player.present_rating|float)}}</td>
         <td>{{ player.wins }}</td>
@@ -31,6 +46,11 @@
         <td>{{ player.goals_scored }}</td>
         <td>{{ player.goals_lost }}</td>
         <td>{{ player.goals_scored - player.goals_lost }}</td>
+        <td>
+            {{ '%0.1f'| format(player.goals_scored / (player.losses + player.wins)) }} : {{ '%0.1f'|
+            format(player.goals_lost / (player.losses + player.wins)) }}
+            ({{ '%0.1f'| format((player.goals_scored - player.goals_lost) / (player.losses + player.wins)) }})
+        </td>
     </tr>
     {% endfor %}
 </table>

@@ -1,6 +1,5 @@
 from flask import Flask, render_template, make_response, redirect, url_for, request, session
 from flask_pymongo import PyMongo
-from app.elo import main as elo
 import app.controllers.MatchesProcessor as MProcessor
 import app.controllers.PlayersProcessor as PProcessor
 import app.secrets as secrets
@@ -20,8 +19,7 @@ def hello():
     app.logger.debug('A value for debugging')
     app.logger.warning('A warning occurred (%d apples)', 42)
     app.logger.error('An error occurred')
-    returnData = elo()
-    return returnData
+    return render_template('hi.html')
 
 
 @app.route("/hi/<name>")

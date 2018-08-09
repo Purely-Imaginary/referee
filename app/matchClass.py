@@ -11,7 +11,7 @@ class match:
         self.league = league
 
     def calculate(self, p11elo, p12elo, p21elo, p22elo):
-        diffCoefficient = 400
+        diffCoefficient = 800
         ratingChangeCoefficient = 5
 
         avg1elo = (p11elo+p12elo) / 2

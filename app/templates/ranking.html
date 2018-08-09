@@ -32,7 +32,7 @@
     <th>Goals Diff</th>
     <th>Avg Goals</th>
     {% for player in players %}
-    {% if player.losses + player.wins > 10 %}
+    {% if player.losses + player.wins > 20 %}
     <tr>
         {% else %}
     <tr style="color:grey">
@@ -57,6 +57,7 @@
 <br>
 <table class="table table-condensed table-hover" style="line-height:0em;font-size: 0.8em;text-align:center">
     <tr style="line-height:1em;font-size: 0.8em">
+        <th>Index</th>
         <th>Date</th>
         <th>Time</th>
         <th>P1 name <br>& rating</th>
@@ -73,6 +74,7 @@
     </tr>
     {% for match in data %}
     <tr>
+        <td>{{ loop.revindex }}</td>
         <td>{{ match.date }}</td>
         <td>{{ match.time }}</td>
         <td>{{ match.team1.player1.name }} (<span

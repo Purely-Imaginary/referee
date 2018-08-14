@@ -10,15 +10,15 @@
 <table class='table' style="font-size: 0.8em;white-space: pre-line;">
     <tr>
         <th>.</th>
-        {% for team1 in teams %}
-        <th>{{ team1 | replace("-","\n")}}</th>
+        {% for player in table %}
+        <th>{{ player.0 | replace("-","\n")}}</th>
         {% endfor %}
     </tr>
-    {% for key, value in teams.items() %}
+    {% for player in table %}
     <tr>
-        <td>{{ key }}</td>
-        {% for name, match in value.items() %}
-        <td>{{ match | replace(":"," : ") }}</td>
+        <td>{{ player.0 }}</td>
+        {% for player2 in table %}
+        <td>{{ teams[player.0][player2.0] | replace(":"," : ") }}</td>
         {% endfor %}
     </tr>
     {% endfor %}
@@ -66,21 +66,5 @@
     {% endfor %}
 </table>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-    $("table").each(function () {
-        $(this).html($(this).html().replace(/Jacek Cieślak - Kamil Piorun/g,"Sicarios z Secondigliano"));
-        $(this).html($(this).html().replace(/Jacek Cieślak \n Kamil Piorun/g,"Sicarios z\nSecondigliano"));
-
-        $(this).html($(this).html().replace(/Paweł Pajchrowski - Wiktor Mazur/g,"Aerodynamika nocnika"));
-        $(this).html($(this).html().replace(/Paweł Pajchrowski \n Wiktor Mazur/g,"Aerodynamika\nnocnika"));
-
-        $(this).html($(this).html().replace(/Amadeusz Opac - Dawid Markowski/g,"Under Estimated"));
-        $(this).html($(this).html().replace(/Amadeusz Opac \n Dawid Markowski/g,"Under\nEstimated"));
-
-        $(this).html($(this).html().replace(/Krzysztof Biernacki - Tomasz Justyna/g,"Kredka i Ołówek"));
-        $(this).html($(this).html().replace(/Krzysztof Biernacki \n Tomasz Justyna/g,"Kredka\ni Ołówek"));
-    });
-
-</script>
 </body>
 </html>

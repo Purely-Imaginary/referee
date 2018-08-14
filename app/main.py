@@ -2,6 +2,7 @@ from flask import Flask, render_template, make_response, redirect, url_for, requ
 from flask_pymongo import PyMongo
 import app.controllers.MatchesProcessor as MProcessor
 import app.controllers.PlayersProcessor as PProcessor
+import app.controllers.TableProcessor as TProcessor
 import app.secrets as secrets
 
 app = Flask(__name__)
@@ -40,6 +41,7 @@ def league(league_id='', generate=True):
 
     table = MProcessor.generate_table(mongo, league_id)
     matches = MProcessor.get_matches_for_league(mongo, league_id, True)
+    table = TProcessor.replace_names_with_teams(table)
     return render_template('league.html', table=table['scoreboard'], teams=table['detailed'], last_matches=matches,
                            league_id=league_id)
 

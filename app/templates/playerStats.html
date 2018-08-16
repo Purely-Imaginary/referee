@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elo Rankings</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <style>
+        td {
+            border-color: #292824 !important
+        }
+        th {
+            border-color: #35332f !important
+        }
+        body {
+            background-color: black;
+            color: white
+        }
+
+
+    </style>
+</head>
+<body>
+<table class='table table-hover' style="line-height:0em;font-size: 0.8em;">
+
+    <tr style="line-height:1em;font-size: 0.8em">
+        <th><a href="/getRank/false">To rank stats</a></th>
+        {% for team in player_data.skirmishes.friends %}
+        <th>{{ team.0 }}</th>
+        {% endfor %}
+    </tr>
+    {% for enemy in player_data.skirmishes.enemies %}
+    <tr>
+        <td>{{ enemy.0 }}</td>
+        {% for friend in player_data.skirmishes.friends %}
+        {% if player_data.skirmishes.data[friend.0][enemy.0] is defined %}
+        <td>{{ player_data.skirmishes.data[friend.0][enemy.0]['goals_lost'] }} : {{
+            player_data.skirmishes.data[friend.0][enemy.0]['goals_scored'] }}
+        </td>
+        {% else %}
+        <td>---</td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+<table class='table table-hover'>
+    {% for match in player_data.progress | sort(attribute='date')%}
+    <tr>
+        <td>{{ match.date }} {{ match.time }}</td>
+        <td>{{ match.value }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

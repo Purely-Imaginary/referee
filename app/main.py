@@ -2,6 +2,7 @@ from flask import Flask, render_template, make_response, redirect, url_for, requ
 from flask_pymongo import PyMongo
 import app.controllers.MatchesProcessor as MProcessor
 import app.controllers.PlayersProcessor as PProcessor
+import app.models.Player as Player
 import app.controllers.TableProcessor as TProcessor
 import app.secrets as secrets
 
@@ -51,14 +52,23 @@ def recalc():
     MProcessor.generate_matches(mongo)
     generate_ranking()
 
+
 @app.route("/getRank")
-def generate_ranking():
-    MProcessor.generate_matches(mongo)
+@app.route("/getRank/<generate>")
+def generate_ranking(generate=True):
+    if generate != 'false':
+        MProcessor.generate_matches(mongo)
     sorted_players = PProcessor.sort_players_by_rating(mongo)
     matches = MProcessor.get_matches_for_list(mongo)
 
     return render_template('ranking.html', data=matches, players=sorted_players)
 
+
+@app.route("/getPlayer/<player_id>")
+def get_player(player_id):
+    player_data = Player.Player.get_player_data(player_id, mongo)
+
+    return render_template('playerStats.html', player_data=player_data)
 
 if __name__ == "__main__":
     # Only for debugging while developing

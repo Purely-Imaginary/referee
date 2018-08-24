@@ -8,6 +8,8 @@ def replace_names_with_teams(table):
         'Artur Radosz - Mateusz Żyrek': 'To zależy',
         'Aleksander Gacek - Jakub Bielecki': 'RODO Dendron',
         'Adam Szeremeta - Marcin Chmielnicki': 'MADAM',
+        'Bartosz Janiak - Mateusz Bartosiak': 'Senegal',
+        'Agnieszka Wojsznis - Paweł Szablewski': 'Sitting Midnight Dudes',
     }
 
     replaced_scoreboard = []

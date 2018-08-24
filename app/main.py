@@ -1,10 +1,10 @@
 from flask import Flask, render_template, make_response, redirect, url_for, request, session
 from flask_pymongo import PyMongo
-import app.controllers.MatchesProcessor as MProcessor
-import app.controllers.PlayersProcessor as PProcessor
-import app.models.Player as Player
-import app.controllers.TableProcessor as TProcessor
-import app.secrets as secrets
+import controllers.MatchesProcessor as MProcessor
+import controllers.PlayersProcessor as PProcessor
+import models.Player as Player
+import controllers.TableProcessor as TProcessor
+import secrets as secrets
 
 app = Flask(__name__)
 

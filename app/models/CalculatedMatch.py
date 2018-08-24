@@ -16,7 +16,7 @@ class CalculatedMatch:
         self.avg2elo = CalculatedMatch.calc_avg_elo(player21, player22)
 
         diff_coefficient = 1600
-        rating_change_coefficient = 40
+        rating_change_coefficient = 100  # 100/20 = 5 pts per goal away from estimation
 
         difference = (self.avg1elo - self.avg2elo) / diff_coefficient
 

@@ -10,6 +10,7 @@ def replace_names_with_teams(table):
         'Adam Szeremeta - Marcin Chmielnicki': 'MADAM',
         'Bartosz Janiak - Mateusz Bartosiak': 'Senegal',
         'Agnieszka Wojsznis - Paweł Szablewski': 'Sitting Midnight Dudes',
+        'Damian Zajkowski - Miłosz Dybizbański': 'Muminki',
     }
 
     replaced_scoreboard = []

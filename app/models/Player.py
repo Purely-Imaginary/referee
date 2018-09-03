@@ -76,15 +76,35 @@ class Player:
 
     def calculate_progress(self):
         self.progress = []
+        previous_match = False
         for match in self.matches:
+            if not previous_match:
+                previous_match = match
+                continue
+
+            if match['date'] == previous_match['date']:
+                continue
+
             self.progress.append(
                 {
-                    'date': match['date'],
-                    'time': match['time'],
-                    'value': match['team1']['player1']['present_rating'] + match['team1']['rating_change'],
-                    'match_id': match['_id']
+                    'date': previous_match['date'],
+                    'time': previous_match['time'],
+                    'value': previous_match['team1']['player1']['present_rating'] + previous_match['team1'][
+                        'rating_change'],
+                    'match_id': previous_match['_id']
                 }
             )
+            previous_match = match
+
+        self.progress.append(
+            {
+                'date': previous_match['date'],
+                'time': previous_match['time'],
+                'value': previous_match['team1']['player1']['present_rating'] + previous_match['team1'][
+                    'rating_change'],
+                'match_id': previous_match['_id']
+            }
+        )
 
     def get_all_matches(self, mongo_handler):
         data_team1 = mongo_handler.db.matches.find({
@@ -120,5 +140,5 @@ class Player:
                 match['team1']['player2'] = temp
 
             matches.append(match)
-
+        matches.sort(key=lambda d: d['date'] + d['time'])
         return matches

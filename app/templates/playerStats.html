@@ -45,9 +45,9 @@
     {% endfor %}
 </table>
 <table class='table table-hover'>
-    {% for match in player_data.progress | sort(attribute='date')%}
+    {% for match in player_data.progress %}
     <tr>
-        <td>{{ match.date }} {{ match.time }}</td>
+        <td>{{ match.date }}</td>
         <td>{{ match.value }}</td>
     </tr>
     {% endfor %}

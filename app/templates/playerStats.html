@@ -7,14 +7,14 @@
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <style>
         td {
-            border-color: #292824 !important
+            border-color: #292824 !important;
         }
         th {
-            border-color: #35332f !important
+            border-color: #35332f !important;
         }
         body {
             background-color: black;
-            color: white
+            color: white;
         }
 
 
@@ -48,7 +48,7 @@
     {% for match in player_data.progress %}
     <tr>
         <td>{{ match.date }}</td>
-        <td>{{ match.value }}</td>
+        <td>{{ '%0.1f'| format(match.value) }}</td>
     </tr>
     {% endfor %}
 </table>

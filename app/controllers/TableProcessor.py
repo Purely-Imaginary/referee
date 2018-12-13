@@ -1,16 +1,6 @@
 def replace_names_with_teams(table):
     teams = {
-        'Jacek Cieślak - Kamil Piorun': 'Sicarios z Secondigliano',
-        'Paweł Pajchrowski - Wiktor Mazur': 'Aerodynamika nocnika',
-        'Amadeusz Opac - Dawid Markowski': 'Under Estimated',
-        'Krzysztof Biernacki - Tomasz Justyna': 'Kredka i Ołówek',
-        'Andrzej Wiśniewski - Jerzy Howis': 'Silni Psychicznie',
-        'Artur Radosz - Mateusz Żyrek': 'To zależy',
-        'Aleksander Gacek - Jakub Bielecki': 'RODO Dendron',
-        'Adam Szeremeta - Marcin Chmielnicki': 'MADAM',
-        'Bartosz Janiak - Mateusz Bartosiak': 'Senegal',
-        'Agnieszka Wojsznis - Paweł Szablewski': 'Sitting Midnight Dudes',
-        'Damian Zajkowski - Miłosz Dybizbański': 'Muminki',
+        'Player 1 - Player 2':'Team name'
     }
 
     replaced_scoreboard = []

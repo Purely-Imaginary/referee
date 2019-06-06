@@ -1,3 +1,5 @@
+import time
+
 from flask import Flask, render_template, make_response, redirect, url_for, request, session
 from flask_pymongo import PyMongo
 import controllers.MatchesProcessor as MProcessor
@@ -5,6 +7,7 @@ import controllers.PlayersProcessor as PProcessor
 import models.Player as Player
 import controllers.TableProcessor as TProcessor
 import secrets as secrets
+import pprint
 
 app = Flask(__name__)
 
@@ -56,10 +59,13 @@ def recalc():
 @app.route("/getRank")
 @app.route("/getRank/<generate>")
 def generate_ranking(generate=True):
+    start_time = time.time()
     if generate != 'false':
         MProcessor.generate_matches(mongo)
     sorted_players = PProcessor.sort_players_by_rating(mongo)
     matches = MProcessor.get_matches_for_list(mongo)
+    duration = round(time.time() - start_time, 4)
+    app.logger.debug('Ready in ' + str(duration) + 's')
 
     return render_template('ranking.html', data=matches, players=sorted_players)
 
@@ -69,6 +75,15 @@ def get_player(player_id):
     player_data = Player.Player.get_player_data(player_id, mongo)
 
     return render_template('playerStats.html', player_data=player_data)
+
+
+@app.route("/print", methods=['GET', 'POST'])
+def print_data():
+    data = pprint.pformat(request.form)
+    app.logger.debug(data)
+
+    return data
+
 
 if __name__ == "__main__":
     # Only for debugging while developing

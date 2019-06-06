@@ -15,8 +15,8 @@ def get_matches_from_spreadsheet():
 
 
 def generate_matches(mongo_handler):
-    players_data = PProcessor.get_all_players_from_spreadsheet(mongo_handler)
     matches_data = get_matches_from_spreadsheet()
+    players_data = PProcessor.get_all_players_from_spreadsheet(mongo_handler, matches_data)
     matches = []
     mongo_handler.db.matches.remove({})
     for row in matches_data:

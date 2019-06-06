@@ -6,19 +6,14 @@ import app.models.CalculatedMatch as CMatch
 import app.models.Player as Player
 
 
-def get_all_players_from_spreadsheet(mongo_handler):
+def get_all_players_from_spreadsheet(mongo_handler, matches):
     starting_rating = 1000
     mongo_handler.db.players.remove({})
-    url = secrets.getspreadsheeturl()
-    response = urllib.request.urlopen(url)
-    data = response.read()  # a `bytes` object
-    text = data.decode('utf-8').split('\r\n')
-    text.pop(0)
 
     players_list = []
     players_columns = [2, 3, 6, 7]
 
-    for row in text:
+    for row in matches:
         raw_data = row.split(',')
         for column in players_columns:
             if players_list.count(raw_data[column]) == 0:
